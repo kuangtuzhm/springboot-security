@@ -32,11 +32,23 @@ public class RedisConfig {
   
 	@Value("${spring.redis.timeout}")
     private int timeout;  
+	
+	@Value("${spring.redis.pool.maxTotal}")
+    private int maxTotal; 
+	
+	@Value("${spring.redis.pool.maxIdle}")
+    private int maxIdle; 
+	
+	@Value("${spring.redis.pool.maxWaitMillis}")
+    private int maxWaitMillis; 
       
     @Bean  
     @ConfigurationProperties(prefix="spring.redis")
     public JedisPoolConfig getRedisConfig(){  
         JedisPoolConfig config = new JedisPoolConfig();  
+        config.setMaxTotal(maxTotal);  
+        config.setMaxIdle(maxIdle);  
+        config.setMaxWaitMillis(maxWaitMillis); 
         return config;  
     }  
       
