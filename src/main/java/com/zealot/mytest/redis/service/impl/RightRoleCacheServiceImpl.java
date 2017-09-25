@@ -2,7 +2,8 @@ package com.zealot.mytest.redis.service.impl;
 
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
@@ -14,7 +15,7 @@ import com.zealot.mytest.util.SerializeUtil;
 @Service("rightRoleCacheService")
 public class RightRoleCacheServiceImpl extends BaseRedisCache implements RightRoleCacheService {
 
-	private static Logger logger = Logger.getLogger(RightRoleCacheServiceImpl.class);  
+	private final static Logger logger = LoggerFactory.getLogger(RightRoleCacheServiceImpl.class);
 	
 	@Override
 	public void set(String rightCode, Set<Integer> roleSet) {

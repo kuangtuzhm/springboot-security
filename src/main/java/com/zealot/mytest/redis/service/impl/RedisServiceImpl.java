@@ -1,6 +1,7 @@
 package com.zealot.mytest.redis.service.impl;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
@@ -11,7 +12,7 @@ import com.zealot.mytest.redis.service.IRedisService;
 @Service("redisService")
 public class RedisServiceImpl extends BaseRedisCache implements IRedisService {
 
-	private static Logger logger = Logger.getLogger(RedisServiceImpl.class);  
+	private final static Logger logger = LoggerFactory.getLogger(RedisServiceImpl.class);
 	
 	@Override
 	public void set(String key, String value) {

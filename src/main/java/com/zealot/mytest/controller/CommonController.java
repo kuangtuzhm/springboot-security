@@ -2,18 +2,17 @@ package com.zealot.mytest.controller;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zealot.mytest.constant.ResponseStatus;
-import com.zealot.mytest.po.User;
-import com.zealot.mytest.result.ResultResponse;
 import com.zealot.mytest.service.UserService;
 
 @Controller
 public class CommonController {
+	
+	private final static Logger logger = LoggerFactory.getLogger(CommonController.class);
 	
 	@Resource(name="userService")
 	private UserService userService;
@@ -46,6 +45,8 @@ public class CommonController {
 	@RequestMapping(value="/mainFrame")
 	public String mainFrame()
 	{
+		logger.debug("debug登录成功进入mainFrame");
+		logger.info("info登录成功进入mainFrame");
 		return "/index";
 	}
 }
