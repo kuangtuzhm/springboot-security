@@ -88,7 +88,7 @@
 
 	<!-- Package as an executable jar -->
 	<build>
-		<finalName>ws-server</finalName>
+		<finalName>springboot-security</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
