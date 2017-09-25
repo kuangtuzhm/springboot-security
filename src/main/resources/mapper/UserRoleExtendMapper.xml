@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zealot.mytest.dao.extend.UserRoleExtendDao" >
+  <resultMap id="BaseResultMap" type="com.zealot.mytest.po.UserRole" >
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uid, role_id
+  </sql>
+  <select id="findByUser" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_role
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zealot.mytest.dao.RightsDao" >
+  <resultMap id="BaseResultMap" type="com.zealot.mytest.po.Rights" >
+    <id column="right_code" property="rightCode" jdbcType="VARCHAR" />
+    <result column="parentCode" property="parentcode" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="index_num" property="indexNum" jdbcType="INTEGER" />
+    <result column="right_desc" property="rightDesc" jdbcType="VARCHAR" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="createdBy" property="createdby" jdbcType="INTEGER" />
+    <result column="updatedBy" property="updatedby" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    right_code, parentCode, type, index_num, right_desc, uri, state, createdBy, updatedBy, 
+    createTime, updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zealot.mytest.po.RightsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rights
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from rights
+    where right_code = #{rightCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from rights
+    where right_code = #{rightCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zealot.mytest.po.RightsExample" >
+    delete from rights
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zealot.mytest.po.Rights" >
+    <selectKey resultType="java.lang.String" keyProperty="rightCode" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rights (right_code, parentCode, type, 
+      index_num, right_desc, uri, 
+      state, createdBy, updatedBy, 
+      createTime, updateTime)
+    values (#{rightCode,jdbcType=VARCHAR}, #{parentcode,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{indexNum,jdbcType=INTEGER}, #{rightDesc,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{createdby,jdbcType=INTEGER}, #{updatedby,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zealot.mytest.po.Rights" >
+    <selectKey resultType="java.lang.String" keyProperty="rightCode" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rights
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      right_code,
+      <if test="parentcode != null" >
+        parentCode,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="indexNum != null" >
+        index_num,
+      </if>
+      <if test="rightDesc != null" >
+        right_desc,
+      </if>
+      <if test="uri != null" >
+        uri,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createdby != null" >
+        createdBy,
+      </if>
+      <if test="updatedby != null" >
+        updatedBy,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{rightCode,jdbcType=VARCHAR},
+      <if test="parentcode != null" >
+        #{parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="indexNum != null" >
+        #{indexNum,jdbcType=INTEGER},
+      </if>
+      <if test="rightDesc != null" >
+        #{rightDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null" >
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createdby != null" >
+        #{createdby,jdbcType=INTEGER},
+      </if>
+      <if test="updatedby != null" >
+        #{updatedby,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zealot.mytest.po.RightsExample" resultType="java.lang.Integer" >
+    select count(*) from rights
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rights
+    <set >
+      <if test="record.rightCode != null" >
+        right_code = #{record.rightCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentcode != null" >
+        parentCode = #{record.parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.indexNum != null" >
+        index_num = #{record.indexNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rightDesc != null" >
+        right_desc = #{record.rightDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uri != null" >
+        uri = #{record.uri,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdby != null" >
+        createdBy = #{record.createdby,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedby != null" >
+        updatedBy = #{record.updatedby,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rights
+    set right_code = #{record.rightCode,jdbcType=VARCHAR},
+      parentCode = #{record.parentcode,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      index_num = #{record.indexNum,jdbcType=INTEGER},
+      right_desc = #{record.rightDesc,jdbcType=VARCHAR},
+      uri = #{record.uri,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      createdBy = #{record.createdby,jdbcType=INTEGER},
+      updatedBy = #{record.updatedby,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zealot.mytest.po.Rights" >
+    update rights
+    <set >
+      <if test="parentcode != null" >
+        parentCode = #{parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="indexNum != null" >
+        index_num = #{indexNum,jdbcType=INTEGER},
+      </if>
+      <if test="rightDesc != null" >
+        right_desc = #{rightDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null" >
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createdby != null" >
+        createdBy = #{createdby,jdbcType=INTEGER},
+      </if>
+      <if test="updatedby != null" >
+        updatedBy = #{updatedby,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where right_code = #{rightCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zealot.mytest.po.Rights" >
+    update rights
+    set parentCode = #{parentcode,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      index_num = #{indexNum,jdbcType=INTEGER},
+      right_desc = #{rightDesc,jdbcType=VARCHAR},
+      uri = #{uri,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      createdBy = #{createdby,jdbcType=INTEGER},
+      updatedBy = #{updatedby,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=VARCHAR}
+    where right_code = #{rightCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

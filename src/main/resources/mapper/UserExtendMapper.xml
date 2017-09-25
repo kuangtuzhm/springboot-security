@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zealot.mytest.dao.extend.UserExtendDao" >
+  <resultMap id="BaseResultMap" type="com.zealot.mytest.po.User" >
+    <id column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="loginName" property="loginname" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uid, loginName, pwd, uname, state, createTime, updateTime
+  </sql>
+  <select id="findUserByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where uname = #{uname,jdbcType=VARCHAR} and state = 1
+  </select>
+  <select id="findUserByLoginName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where loginName = #{loginName,jdbcType=VARCHAR} and state = 1
+  </select>
+</mapper>
