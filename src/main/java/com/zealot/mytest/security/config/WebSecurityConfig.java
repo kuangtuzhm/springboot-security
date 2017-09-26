@@ -1,15 +1,19 @@
 package com.zealot.mytest.security.config;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.zealot.mytest.security.auth.MyAuthenticationProvider;
 
 
 @Configurable
@@ -19,6 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;//自定义用户服务
+	
+	@Autowired
+    SessionRegistry sessionRegistry;
 	
 //	@Autowired
 //	private MyAuthenticationProvider provider;//自定义验证
@@ -60,9 +67,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutUrl("/logout")
         //设置注销成功后跳转页面，默认是跳转到登录页面
         .logoutSuccessUrl("/index")
-        .permitAll();
+        .permitAll()
+        //用来管理登录的session内容,可以用来控制一个账号只能登录1次或者在线踢账户下线或者统计所有在线账户等等. 
+        //用法为sessionRegistry.getAllPrincipals();
+        .and().sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry);
 		//关闭csrf 防止循环定向
         http.csrf().disable();
 	}
-
 }

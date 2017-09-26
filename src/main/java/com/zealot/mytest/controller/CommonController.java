@@ -1,9 +1,13 @@
 package com.zealot.mytest.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,6 +20,9 @@ public class CommonController {
 	
 	@Resource(name="userService")
 	private UserService userService;
+	
+	@Autowired
+    SessionRegistry sessionRegistry;
 
 //	@RequestMapping(value="/login")
 //	@ResponseBody
@@ -47,6 +54,8 @@ public class CommonController {
 	{
 		logger.debug("debug登录成功进入mainFrame");
 		logger.info("info登录成功进入mainFrame");
+		List<Object> s = sessionRegistry.getAllPrincipals();
+		logger.info("s="+s);
 		return "/index";
 	}
 }
