@@ -1,11 +1,9 @@
 package com.zealot.mytest.result;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResultResponse {
 
-	private String status;
+	private String status = "success";
 	
 	private String errMsg;
 	

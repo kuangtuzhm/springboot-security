@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+
+import com.zealot.mytest.security.handler.ClearSessionRegistryLogoutHandler;
 
 
 
@@ -36,6 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return sessionRegistry;
     }
 	
+	@Bean
+	public LogoutHandler getLogoutHandler()
+	{
+		LogoutHandler logoutHandler = new ClearSessionRegistryLogoutHandler();
+		return logoutHandler;
+	}
+	
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
@@ -57,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest().authenticated()
         .and().formLogin().loginPage("/login")
         //设置默认登录成功跳转页面
-        .defaultSuccessUrl("/mainFrame").failureUrl("/login?error").permitAll()
+        .defaultSuccessUrl("/mainFrame").failureUrl("/login").permitAll()
         /*
         .and()
         //开启cookie保存用户数据
@@ -72,11 +82,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //默认注销行为为logout，可以通过下面的方式来修改
         .logoutUrl("/logout")
         //设置注销成功后跳转页面，默认是跳转到登录页面
-        .logoutSuccessUrl("/index")
+        .logoutSuccessUrl("/login")
+        .addLogoutHandler(getLogoutHandler())
         .permitAll()
         //用来管理登录的session内容,可以用来控制一个账号只能登录1次或者在线踢账户下线或者统计所有在线账户等等. 
         //用法为sessionRegistry.getAllPrincipals();
-        .and().sessionManagement().maximumSessions(1).sessionRegistry(getSessionRegistry());
+        .and().sessionManagement().maximumSessions(1).expiredUrl("/login").sessionRegistry(getSessionRegistry());
 		//关闭csrf 防止循环定向
         http.csrf().disable();
 	}

@@ -86,6 +86,9 @@ public class JspAuthorizeTag extends AbstractAuthorizeTag implements Tag {
 				//authorized = true;
 				Authentication currentUser = SecurityContextHolder.getContext()
 						.getAuthentication();
+				
+//				Object s = currentUser.getPrincipal();
+//				System.out.println(s);
 				List<SimpleGrantedAuthority> userRoles = (List<SimpleGrantedAuthority>)currentUser.getAuthorities();
 				ApplicationContext appContext = SecurityWebApplicationContextUtils.findRequiredWebApplicationContext(getServletContext());
 				RoleRightService roleRightService = (RoleRightService)appContext.getBean("roleRightService");

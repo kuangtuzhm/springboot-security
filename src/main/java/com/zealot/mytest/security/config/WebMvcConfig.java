@@ -19,11 +19,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	
 	@Autowired
 	private FreeMarkerConfigurer configurer;
-
-	@Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-    }
 	
 	@PostConstruct
 	public void freeMarkerConfigurer()
