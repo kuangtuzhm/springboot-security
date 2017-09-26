@@ -11,8 +11,6 @@ import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomize
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
@@ -61,9 +59,5 @@ public class StartUp {
 		return new HttpMessageConverters(converter);
 	}
 	
-	@Bean
-    public SessionRegistry getSessionRegistry(){
-        SessionRegistry sessionRegistry=new SessionRegistryImpl();
-        return sessionRegistry;
-    }
+	
 }
