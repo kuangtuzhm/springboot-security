@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -38,13 +39,14 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 	    }
 	 
 	    Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-	    return new UsernamePasswordAuthenticationToken(user, password, authorities);
+	    return new RememberMeAuthenticationToken(username, user, authorities);
+	    //return new UsernamePasswordAuthenticationToken(user, password, authorities);
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
 
-		return authentication.equals(UsernamePasswordAuthenticationToken.class);
+		return authentication.equals(RememberMeAuthenticationToken.class);
 	}
 
 }

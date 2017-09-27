@@ -2,9 +2,13 @@ package com.zealot.mytest.security.config;
 
 
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +18,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
 import com.zealot.mytest.security.handler.ClearSessionRegistryLogoutHandler;
 
@@ -26,6 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;//自定义用户服务
+	
+	@Autowired
+    private JdbcTemplate jdbcTemplate;
 	
 //	@Autowired
 //    SessionRegistry sessionRegistry;
@@ -54,6 +62,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//将验证过程交给自定义验证工具
 		//auth.authenticationProvider(provider);
 	}
+	
+	//spring security 内部都写死了，这里要把 这个DAO 注入
+    @Bean
+    public JdbcTokenRepositoryImpl tokenRepository(){        
+        JdbcTokenRepositoryImpl j=new JdbcTokenRepositoryImpl();
+        j.setJdbcTemplate(jdbcTemplate);
+        return j;
+    }
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -85,9 +101,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutSuccessUrl("/login")
         .addLogoutHandler(getLogoutHandler())
         .permitAll()
+        .invalidateHttpSession(true)
+        .and()
+            //登录后记住用户，下次自动登录
+            //数据库中必须存在名为persistent_logins的表
+            //建表语句见code15
+            
+           // 这里是核心
+            .rememberMe()
+            .tokenValiditySeconds(604800) //一周
+            //指定记住登录信息所使用的数据源
+            .tokenRepository(tokenRepository())//code4
         //用来管理登录的session内容,可以用来控制一个账号只能登录1次或者在线踢账户下线或者统计所有在线账户等等. 
         //用法为sessionRegistry.getAllPrincipals();
-        .and().sessionManagement().maximumSessions(1).expiredUrl("/login").sessionRegistry(getSessionRegistry());
+        .and().sessionManagement().maximumSessions(1)
+        .expiredUrl("/login").sessionRegistry(getSessionRegistry());
 		//关闭csrf 防止循环定向
         http.csrf().disable();
 	}

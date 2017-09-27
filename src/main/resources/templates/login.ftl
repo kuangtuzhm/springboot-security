@@ -54,6 +54,7 @@
                 <input type="password" class="form-control" id="password" name="password" placeholder="密码"/>
             </div>
             <input type="submit" id="login" value="Login" class="btn btn-primary"/>
+            <input type="checkbox" name="remember-me" value="true" th:checked="checked"/><p>Remember me</p>
         </form>
     </div>
 </div>
