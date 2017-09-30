@@ -84,6 +84,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and().formLogin().loginPage("/login")
         //设置默认登录成功跳转页面
         .defaultSuccessUrl("/mainFrame").failureUrl("/login").permitAll()
+        .and()
+        //如果没禁用掉会禁用iframe
+		.headers().frameOptions().disable()
         /*
         .and()
         //开启cookie保存用户数据
