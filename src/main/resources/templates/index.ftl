@@ -29,15 +29,6 @@
   </script>
 </head>
 <body>
-<@security.authorize code="990101">
-    aaaaaaaaa
-</@security.authorize>
-<security:authorize access="hasRole(1)">
-eeeeeee
-</security:authorize>
-<security:authorize access="hasRole('3')">
-fffffff
-</security:authorize>
 <h1>Echo Server</h1>
 <div style="text-align: left;">
   hello
